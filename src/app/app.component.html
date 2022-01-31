@@ -1,0 +1,114 @@
+<h1>{{ title }}</h1>
+<div formArrayName="labelArray" class="mb-3">
+<div class="row">
+    <div class="col">
+        <div class="contentHeading">Label details</div>
+    </div>
+    <div class="col text-right">
+        <button kendoButton  type="button" class="btn purpleBtnOutline" icon="plus" (click)="addUserRole()">
+            Add more stock labels
+        </button>
+    </div>
+</div>
+
+<div *ngFor="let item of labelsSection.controls; let roleIndex = index" [formGroupName]="roleIndex">
+    <div class="row mb-3 align-items-center bg-light mt-1 pb-3">
+        <div class="col-3">
+            <kendo-formfield>
+                    <div class="row align-items-end">
+                        <div class="col-12 pr-0">
+                            <kendo-label [for]="labelName" text="Label name"></kendo-label>
+                            <kendo-dropdownlist
+                                #labelName
+                                [data]="stockLabelList"
+                                [filterable]="true"
+                                textField="text"
+                                valueField="value"
+                                (filterChange)="handleFilterStockLabel($event)"
+                                class="bottomLineTextbox hiddenDropArrow"
+                                [formControlName]="'labelName'"
+                                >
+                                <ng-template kendoDropDownListNoDataTemplate>
+                                    <div>
+                                        No data found.
+                                        <ng-container *ngIf="filterStockLabel">
+                                            Do you want to add new item - "{{ filterStockLabel }}" ?
+                                        </ng-container>
+                                        <br />
+                                        <button *ngIf="filterStockLabel" class="k-button" (click)="addNewStockLabel()">
+                                            Add new item
+                                        </button>
+                                    </div>
+                                </ng-template>
+                            </kendo-dropdownlist>
+                        </div>
+                       
+                    </div>
+            </kendo-formfield>
+        </div>
+        <div class="col-3">
+            <kendo-formfield>
+                <kendo-label [for]="labels" text="Select"></kendo-label>
+                <kendo-dropdownlist #labels [data]="lableType" [formControlName]="'labelType'"
+                textField="text" valueField="value" (valueChange)="valueChange($event, roleIndex)"> </kendo-dropdownlist>
+                </kendo-formfield>
+        </div>
+        <div class="col-3" *ngIf="allocateinput">
+            <kendo-formfield>
+                <kendo-label [for]="labelDescription" text="Description"></kendo-label>
+                
+                <kendo-textbox placeholder="" [clearButton]="true" class="bottomLineTextbox"
+                    #labelDescription [formControlName]="'labelDescription'">
+                </kendo-textbox>
+            </kendo-formfield>
+        </div>
+        <div class="col-3" *ngIf="allocateRadio">
+          
+            <kendo-label [for]="input" text="Yes / No"></kendo-label>
+            <kendo-switch #input class="customSwitch" [formControlName]="'labelRadio'"></kendo-switch>
+            </div>
+            <div class="col-3" *ngIf="allocateDropdown">
+                <kendo-formfield>
+                <kendo-label [for]="dropdown" text="Add"></kendo-label>
+
+                <kendo-dropdownlist
+                #dropdown
+                [data]="stockLabelListDropdown"
+                [filterable]="true"
+                textField="text"
+                valueField="value"
+                (filterChange)="handleFilterStockDropdown($event)"
+                class="bottomLineTextbox hiddenDropArrow"
+                [formControlName]="'labelDropdown'"
+                >
+                <ng-template kendoDropDownListNoDataTemplate>
+                    <div>
+                        No data found.
+                        <ng-container *ngIf="filterStockLabelDropdown">
+                            Do you want to add new item - "{{ filterStockLabelDropdown }}" ?
+                        </ng-container>
+                        <br />
+                        <button *ngIf="filterStockLabelDropdown" class="k-button" (click)="addNewStockLabelDropdown()">
+                            Add new item
+                        </button>
+                    </div>
+                </ng-template>
+            </kendo-dropdownlist>
+            </kendo-formfield>
+            </div>
+        <div class="col-2">
+            <kendo-label [for]="optional" text="Optional / mandatory"></kendo-label>
+            <kendo-switch #optional class="customSwitch" [formControlName]="'optional'" ></kendo-switch>
+        </div>
+        <div class="col-1">
+            <button kendoButton look="flat" type="button" class="btn text-danger" icon="trash"
+            (click)="deleteUserRoleSection(roleIndex)"></button>
+            
+        </div>
+        <!-- <div class="col-1">
+            <button kendoButton look="flat" type="button" class="btn text-success" icon="plus" (click)="addUserRole()">
+            </button>
+        </div> -->
+    </div>
+</div>
+</div>
